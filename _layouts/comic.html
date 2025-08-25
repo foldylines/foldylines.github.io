@@ -1,0 +1,36 @@
+---
+layout: default
+---
+
+<section>
+  <div class="comic-panels">
+    {% assign comic_folder = page.comic %}
+    {% assign panels = site.static_files %}
+    {% assign comic_panels = "" | split: "" %}
+    {% for panel in panels %}
+      {% if panel.path contains 'assets/img/dumb comics/' and panel.path contains comic_folder %}
+        {% assign parts = panel.path | split: '/' %}
+        {% assign filename = parts | last %}
+        {% assign first_char = filename | slice: 0, 1 %}
+        {% assign rest = filename | slice: 1, filename.size | minus: 4 %}
+        {% if first_char == 'p' and rest != "" %}
+          {% assign comic_panels = comic_panels | push: panel %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {% assign sorted_panels = comic_panels | sort: "name" %}
+    {% for panel in sorted_panels %}
+      <img src="{{ site.github.url }}{{ panel.path }}" alt="{{ panel.name }}">
+    {% endfor %}
+  </div>
+  <div class="comic-thumbnails">
+    {% assign images = site.static_files | where_exp: "file", "file.path contains 'assets/img/dumb comics/' and file.path contains 'p1.'" %}
+    {% for comic in images %}
+      {% assign parts = comic.path | split: '/' %}
+      {% assign comic_name = parts[4] %}
+      <a href="{{ site.github.url }}/projects/weekly-comic-pages/{{ comic_name }}">
+        <img src="{{ site.github.url }}{{ comic.path }}" alt="{{ comic.name }}" style="width:80px;">
+      </a>
+    {% endfor %}
+  </div>
+</section>

@@ -17,3 +17,51 @@ $documentBackgroundColor: #fff
 @import '1-tools/-tools-dir'
 @import '2-base/-base-dir'
 @import '3-sections/-sections-dir'
+
+@font-face
+  font-family: 'Crack2-Regular'
+  src: url('{{ site.github.url }}/assets/fonts/Crack2-Regular.otf') format('opentype')
+  font-weight: normal
+  font-style: normal
+
+@font-face
+  font-family: 'CaviarDreams'
+  src: url('{{ site.github.url }}/assets/fonts/CaviarDreams.ttf') format('opentype')
+  font-weight: normal
+  font-style: normal
+
+body
+  font-family: 'CaviarDreams', sans-serif
+
+header nav a
+  font-family: 'CaviarDreams', sans-serif
+
+.logo a
+  font-family: 'Crack2-Regular', sans-serif
+  font-size: 1.5em
+
+.gallery
+  display: grid
+  grid-template-columns: repeat(3, 1fr)
+  gap: 16px
+  justify-items: center
+  margin: 0 auto
+  max-width: 800px
+
+.gallery-item img
+  max-width: 200px
+  border-radius: 8px
+  cursor: pointer
+  transition: transform 0.2s ease
+
+.gallery-item img:hover
+  transform: scale(1.08)
+
+.comic-panels
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.comic-panels img
+  max-width: 600px
+  margin-bottom: 24px
