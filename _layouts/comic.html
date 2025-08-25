@@ -8,14 +8,15 @@ layout: default
     {% assign panels = site.static_files %}
     {% assign comic_panels = "" | split: "" %}
     {% for panel in panels %}
-      {% if panel.path contains 'assets/img/dumb comics/' and panel.path contains comic_folder %}
-        {% assign parts = panel.path | split: '/' %}
-        {% assign filename = parts | last %}
-        {% assign first_char = filename | slice: 0, 1 %}
-        {% assign rest = filename | slice: 1, filename.size | minus: 4 %}
-        {% if first_char == 'p' and rest != "" %}
-          {% assign comic_panels = comic_panels | push: panel %}
-        {% endif %}
+      {% if panel.path contains 'assets/img/dumb comics/' %}
+        {% if panel.path contains comic_folder %}
+            {% assign parts = panel.path | split: '/' %}
+            {% assign filename = parts | last %}
+            {% assign first_char = filename | slice: 0, 1 %}
+            {% if first_char == 'p' %}
+              {% assign comic_panels = comic_panels | push: panel %}
+            {% endif %}
+          {% endif %}
       {% endif %}
     {% endfor %}
     {% assign sorted_panels = comic_panels | sort: "name" %}
@@ -24,13 +25,19 @@ layout: default
     {% endfor %}
   </div>
   <div class="comic-thumbnails">
-    {% assign images = site.static_files | where_exp: "file", "file.path contains 'assets/img/dumb comics/' and file.path contains 'p1.'" %}
+    {% assign images = site.static_files %}
     {% for comic in images %}
-      {% assign parts = comic.path | split: '/' %}
-      {% assign comic_name = parts[4] %}
-      <a href="{{ site.github.url }}/projects/weekly-comic-pages/{{ comic_name }}">
-        <img src="{{ site.github.url }}{{ comic.path }}" alt="{{ comic.name }}" style="width:80px;">
-      </a>
+      {% if comic.path contains 'assets/img/dumb comics/' %}
+        {% assign parts = comic.path | split: '/' %}
+        {% assign filename = parts | last %}
+        {% assign comic_name = parts[4] %}
+        {% assign first_char = filename | slice: 0, 1 %}
+        {% if first_char == 'p' and filename contains '1.' %}
+          <a href="{{ site.github.url }}/projects/weekly-comic-pages/{{ comic_name }}">
+            <img src="{{ site.github.url }}{{ comic.path }}" alt="{{ comic.name }}" style="width:80px;">
+          </a>
+        {% endif %}
+      {% endif %}
     {% endfor %}
   </div>
 </section>
